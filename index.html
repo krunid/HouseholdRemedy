@@ -2,9 +2,11 @@
 <html>
 <head>
     <title>บิงโกยาสามัญประจำบ้าน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body {
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'Kanit', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -18,6 +20,33 @@
             color: #2c3e50;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
             margin-bottom: 20px;
+        }
+
+        .size-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            min-width: 120px;
+        }
+
+        .size-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .change-size {
+            background: #ff9800 !important;
+        }
+
+        .change-size:hover {
+            background: #f57c00 !important;
         }
 
         .bingo-board {
@@ -34,18 +63,22 @@
             border: 2px solid #4CAF50;
             border-radius: 10px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            font-size: 18px;
+            padding: 8px;
             text-align: center;
-            cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             position: relative;
+            gap: 4px;
         }
 
-        .cell:hover {
+        .cell.clickable {
+            cursor: pointer;
+        }
+
+        .cell.clickable:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 8px rgba(0,0,0,0.2);
         }
@@ -60,6 +93,32 @@
             border-color: #FFA500;
             font-weight: bold;
             font-size: 24px;
+        }
+
+        .cell.disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .cell.available {
+            border-color: #2196F3;
+            border-width: 3px;
+        }
+
+        .med-icon {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .med-text {
+            line-height: 1.3;
+            margin-top: 6px;
+            font-size: 13px;
+            word-break: break-word;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
         }
 
         .controls {
@@ -132,6 +191,139 @@
             border-bottom: 1px solid #dee2e6;
         }
 
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .popup {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 80%;
+            width: 400px;
+            animation: popupIn 0.3s ease;
+        }
+
+        .popup-message {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .popup-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .popup-button:hover {
+            background: #1976D2;
+        }
+
+        @keyframes popupIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .winner-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 72px;
+            color: gold;
+            text-shadow: 3px 3px 0 #000;
+            font-weight: bold;
+            z-index: 1000;
+            animation: bounceIn 1s ease;
+            pointer-events: none;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .copyright {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .social-link i {
+            font-size: 24px;
+        }
+
+        .social-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            background: #f8f9fa;
+        }
+
+        .fb-link {
+            color: #1877f2;
+        }
+
+        .blogger-link {
+            color: #ff5722;
+        }
+
         @keyframes celebrate {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -141,16 +333,41 @@
 </head>
 <body>
     <h1>💊 บิงโกยาสามัญประจำบ้าน 🏥</h1>
-    <div class="game-info">
-        <div class="current-med" id="currentMed">กดปุ่ม "สุ่มยา" เพื่อเริ่มเล่น</div>
-        <div class="history" id="history">
-            <div class="history-item">ประวัติยาที่สุ่มได้จะแสดงที่นี่</div>
+    <div class="game-info" id="sizePicker">
+        <h2 style="text-align: center; color: #2196F3; margin-bottom: 20px;">เลือกขนาดตาราง</h2>
+        <div class="controls">
+            <button onclick="selectSize(3)" class="size-btn">3 x 3</button>
+            <button onclick="selectSize(4)" class="size-btn">4 x 4</button>
         </div>
     </div>
-    <div class="bingo-board" id="board"></div>
-    <div class="controls">
-        <button class="random-med" onclick="randomizeMed()">สุ่มยา</button>
-        <button onclick="resetGame()">เริ่มเกมใหม่</button>
+    <div id="gameContainer" style="display: none;">
+        <div class="game-info">
+            <div class="current-med" id="currentMed">กดปุ่ม "สุ่มยา" เพื่อเริ่มเล่น</div>
+            <div class="history" id="history">
+                <div class="history-item">ประวัติยาที่สุ่มได้จะแสดงที่นี่</div>
+            </div>
+        </div>
+        <div class="bingo-board" id="board"></div>
+        <div class="controls">
+            <button class="random-med" onclick="randomizeMed()">สุ่มยา</button>
+            <button onclick="resetGame()">เริ่มเกมใหม่</button>
+            <button class="change-size" onclick="backToSizeSelection()">เลือกขนาดตาราง</button>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="copyright">
+            © 2024 ลิขสิทธิ์โปรแกรม จัดทำโดย นายวัฒนชาต ทัศนศร
+        </div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/KrunidE23VKF" target="_blank" class="social-link fb-link">
+                <i class="fab fa-facebook"></i>
+                Facebook
+            </a>
+            <a href="https://krunidblogger.blogspot.com/" target="_blank" class="social-link blogger-link">
+                <i class="fab fa-blogger"></i>
+                Blogger
+            </a>
+        </div>
     </div>
 
     <script>
@@ -161,11 +378,33 @@
             "ยาแก้ท้องเสีย", "ยาดม", "สำลี", "เบตาดีน"
         ];
 
+        const medicineImages = {
+            "พาราเซตามอล": "/api/images/medicines/paracetamol.jpg",
+            "ยาธาตุน้ำแดง": "/api/images/medicines/yatatnamdeang.jpg",
+            "ผงน้ำตาลเกลือแร่": "/api/images/medicines/ors.jpg",
+            "ยาแก้แพ้": "/api/images/medicines/antihistamine.jpg",
+            "ยาแก้ไอ": "/api/images/medicines/cough.jpg",
+            "ยาใส่แผล": "/api/images/medicines/antiseptic.jpg",
+            "ยาหม่อง": "/api/images/medicines/balm.jpg",
+            "ผ้าพันแผล": "/api/images/medicines/bandage.jpg",
+            "แอลกอฮอล์": "/api/images/medicines/alcohol.jpg",
+            "น้ำเกลือล้างแผล": "/api/images/medicines/saline.jpg",
+            "ยาหยอดตา": "/api/images/medicines/eyedrops.jpg",
+            "ยาทาแก้ผื่นคัน": "/api/images/medicines/antiitch.jpg",
+            "ยาแก้ท้องเสีย": "/api/images/medicines/antidiarrheal.jpg",
+            "ยาดม": "/api/images/medicines/inhalant.jpg",
+            "สำลี": "/api/images/medicines/cotton.jpg",
+            "เบตาดีน": "/api/images/medicines/betadine.jpg"
+        };
+
+        let boardSize = 0;
         let selectedCells = new Set();
         let currentBoard = [];
         let currentMedElement = document.getElementById('currentMed');
         let historyElement = document.getElementById('history');
         let usedMeds = new Set();
+        let gameStarted = false;
+        let canSelectCell = false;
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -175,26 +414,57 @@
             return array;
         }
 
-        function createBoard() {
+        function backToSizeSelection() {
+            // รีเซ็ตเกม
+            selectedCells = new Set();
+            usedMeds.clear();
+            gameStarted = false;
+            canSelectCell = false;
+            boardSize = 0;
+            currentMedElement.textContent = "กดปุ่ม \"สุ่มยา\" เพื่อเริ่มเล่น";
+            historyElement.innerHTML = '<div class="history-item">ประวัติยาที่สุ่มได้จะแสดงที่นี่</div>';
+            
+            // ซ่อนเกมและแสดงตัวเลือกขนาดตาราง
+            document.getElementById('gameContainer').style.display = 'none';
+            document.getElementById('sizePicker').style.display = 'block';
+        }
+
+        function selectSize(size) {
+            boardSize = size;
+            document.getElementById('sizePicker').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'block';
+            createBoard();
+        }
+
+                    function formatMedText(text) {
+                return text ? text.replace(/\n/g, '<br>') : '';
+            }
+
+            function createBoard() {
             const shuffledMeds = shuffleArray([...medicines]);
             const board = document.getElementById('board');
             board.innerHTML = '';
             currentBoard = [];
 
-            const freePosition = 5;
+            // ปรับ CSS Grid ตามขนาดตาราง
+            board.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
 
-            for (let i = 0; i < 16; i++) {
+            const totalCells = boardSize * boardSize;
+            const freePosition = Math.floor(totalCells / 2); // ตำแหน่งกลาง
+
+            for (let i = 0; i < totalCells; i++) {
                 const cell = document.createElement('div');
-                cell.className = 'cell';
+                cell.className = 'cell disabled';
                 
                 if (i === freePosition) {
+                    cell.classList.remove('disabled');
                     cell.classList.add('free');
                     cell.classList.add('selected');
                     cell.innerHTML = '★<br>FREE';
                     selectedCells.add(i);
                 } else {
                     const med = shuffledMeds.pop();
-                    cell.textContent = med;
+                    cell.innerHTML = `<div class="med-text">${formatMedText(med)}</div>`;
                     currentBoard[i] = med;
                     cell.onclick = () => toggleCell(i);
                 }
@@ -203,25 +473,75 @@
             }
         }
 
-        function toggleCell(index) {
-            if (index === 5) return;
+        function showPopup(message, callback = null) {
+            const overlay = document.createElement('div');
+            overlay.className = 'popup-overlay';
             
-            const cell = document.querySelectorAll('.cell')[index];
-            if (cell.classList.contains('selected')) {
-                cell.classList.remove('selected');
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'popup-message';
+            messageDiv.textContent = message;
+            
+            const button = document.createElement('button');
+            button.className = 'popup-button';
+            button.textContent = 'ตกลง';
+            button.onclick = () => {
+                overlay.remove();
+                if (callback) callback();
+            };
+            
+            popup.appendChild(messageDiv);
+            popup.appendChild(button);
+            overlay.appendChild(popup);
+            document.body.appendChild(overlay);
+        }
+
+        function toggleCell(index) {
+            if (!gameStarted || index === 5) return;
+            if (!canSelectCell) {
+                showPopup('กรุณากดปุ่ม "สุ่มยา" ก่อนเลือกช่อง');
+                return;
+            }
+            
+            const currentMedText = currentMedElement.textContent;
+            const randomedMed = currentMedText.replace('ยาที่สุ่มได้: ', '');
+            const selectedCell = document.querySelectorAll('.cell')[index];
+            const cellText = selectedCell.querySelector('.med-text').textContent;
+            
+            if (cellText !== randomedMed) {
+                showPopup('กรุณาเลือกช่องที่ตรงกับยาที่สุ่มได้เท่านั้น');
+                return;
+            }
+            
+            if (selectedCell.classList.contains('selected')) {
+                selectedCell.classList.remove('selected');
                 selectedCells.delete(index);
             } else {
-                cell.classList.add('selected');
+                selectedCell.classList.add('selected');
                 selectedCells.add(index);
+                canSelectCell = false;
                 checkWin();
             }
         }
 
         function randomizeMed() {
+            if (!gameStarted) {
+                gameStarted = true;
+                const cells = document.querySelectorAll('.cell');
+                cells.forEach(cell => {
+                    if (!cell.classList.contains('free')) {
+                        cell.classList.remove('disabled');
+                        cell.classList.add('clickable');
+                    }
+                });
+            }
+
             let availableMeds = medicines.filter(med => !usedMeds.has(med));
             
             if (availableMeds.length === 0) {
-                alert('ยาถูกสุ่มครบทุกชนิดแล้ว! กดปุ่มเริ่มเกมใหม่เพื่อเล่นอีกครั้ง');
+                showPopup('ยาถูกสุ่มครบทุกชนิดแล้ว! กดปุ่มเริ่มเกมใหม่เพื่อเล่นอีกครั้ง');
                 return;
             }
 
@@ -235,24 +555,60 @@
             historyItem.className = 'history-item';
             historyItem.textContent = randomMed;
             historyElement.insertBefore(historyItem, historyElement.firstChild);
+            
+            canSelectCell = true;
 
             const cells = document.querySelectorAll('.cell');
-            cells.forEach((cell, index) => {
-                if (cell.textContent === randomMed) {
+            cells.forEach((cell) => {
+                const cellText = cell.querySelector('.med-text')?.textContent;
+                if (cellText === randomMed) {
                     cell.style.background = '#e8f5e9';
+                    cell.classList.add('available');
                     setTimeout(() => {
                         cell.style.background = '';
                     }, 2000);
+                } else {
+                    cell.classList.remove('available');
                 }
             });
         }
 
+        function getWinningCombos(size) {
+            const combos = [];
+            
+            // แถวแนวนอน
+            for (let i = 0; i < size; i++) {
+                const row = [];
+                for (let j = 0; j < size; j++) {
+                    row.push(i * size + j);
+                }
+                combos.push(row);
+            }
+            
+            // แถวแนวตั้ง
+            for (let i = 0; i < size; i++) {
+                const col = [];
+                for (let j = 0; j < size; j++) {
+                    col.push(j * size + i);
+                }
+                combos.push(col);
+            }
+            
+            // แนวทแยงมุม
+            const diag1 = [];
+            const diag2 = [];
+            for (let i = 0; i < size; i++) {
+                diag1.push(i * size + i);
+                diag2.push(i * size + (size - 1 - i));
+            }
+            combos.push(diag1);
+            combos.push(diag2);
+            
+            return combos;
+        }
+
         function checkWin() {
-            const winningCombos = [
-                [0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15],
-                [0,4,8,12], [1,5,9,13], [2,6,10,14], [3,7,11,15],
-                [0,5,10,15], [3,6,9,12]
-            ];
+            const winningCombos = getWinningCombos(boardSize);
 
             for (let combo of winningCombos) {
                 if (combo.every(index => selectedCells.has(index))) {
@@ -267,14 +623,25 @@
             winningCells.forEach(index => {
                 cells[index].classList.add('winner');
             });
+
+            // สร้างและแสดงข้อความ BINGO!
+            const bingoText = document.createElement('div');
+            bingoText.className = 'winner-overlay';
+            bingoText.textContent = 'บิงโก!';
+            document.body.appendChild(bingoText);
+
             setTimeout(() => {
-                alert('ยินดีด้วย! คุณชนะแล้ว! 🎉');
+                showPopup('ยินดีด้วย! คุณชนะแล้ว! 🎉', () => {
+                    bingoText.remove();
+                });
             }, 500);
         }
 
         function resetGame() {
             selectedCells = new Set();
             usedMeds.clear();
+            gameStarted = false;
+            canSelectCell = false;
             currentMedElement.textContent = "กดปุ่ม \"สุ่มยา\" เพื่อเริ่มเล่น";
             historyElement.innerHTML = '<div class="history-item">ประวัติยาที่สุ่มได้จะแสดงที่นี่</div>';
             createBoard();
